@@ -2,12 +2,13 @@
 
 ;; Copyright (C) 2017 heatingdevice
 
-;; Author: heatingdevice
+;; Author: heatingdevice and edited by zDragonSK
 ;;      Wilfredo Velázquez-Rodríguez <zulu.inuoe@gmail.com>
 ;; Created: 21 Nov 2017
-;; Version: 1.1.0
-;; Keywords: games
-;; Homepage: https://github.com/Mstrodl/elcord
+;; Edited:  08/07/2024
+;; Version: 1.1.7
+;; Keywords: Discord
+;; Homepage: https://github.com/zdragonsk/elcord-ts
 ;; Package-Requires: ((emacs "25.1"))
 ;; License: MIT
 
@@ -60,28 +61,29 @@ See <https://discordapp.com/developers/applications/me>."
 (defcustom elcord-idle-timer 300
   "How long to wait before setting the status to idle."
   :type 'integer
-  :group 'elcord)
+  :group 'elcord-ts)
 
-(defcustom elcord-idle-message "Getting something to drink..."
+(defcustom elcord-idle-message "Ausente do Emacs..."
   "Message to show when elcord status is idle."
   :type 'string)
 
 (defcustom elcord-quiet 'nil
   "Whether or not to supress elcord messages (connecting, disconnecting, etc.)"
   :type 'boolean
-  :group 'elcord)
+  :group 'elcord-ts)
 
 (defcustom elcord-mode-icon-alist '((agda-mode . "agda-mode_icon")
                                     (assembly-mode . "assembly-mode_icon")
+				    (asm-mode . "assembly-mode_icon")
                                     (bqn-mode . "bqn-mode_icon")
-                                    (c-mode . "c-mode_icon")
-                                    (c++-mode . "cpp-mode_icon")
+                                    (c-ts-mode . "c-mode_icon")
+                                    (c++-ts-mode . "cpp-mode_icon")
                                     (clojure-mode . "clojure-mode_icon")
                                     (csharp-mode . "csharp-mode_icon")
                                     (comint-mode . "comint-mode_icon")
                                     (cperl-mode . "cperl-mode_icon")
                                     (dockerfile-mode . "dockerfile-mode_icon")
-                                    (elixir-mode . "elixir-mode_icon")
+                                    (elixir-ts-mode . "elixir-mode_icon")
                                     (emacs-lisp-mode . (elcord--editor-icon))
                                     (enh-ruby-mode . "ruby-mode_icon")
                                     (erc-mode . "irc-mode_icon")
@@ -95,7 +97,7 @@ See <https://discordapp.com/developers/applications/me>."
                                     (hy-mode . "hy-mode_icon")
                                     (java-mode . "java-mode_icon")
                                     (julia-mode . "julia-mode_icon")
-                                    (js-mode . "javascript-mode_icon")
+                                    (js-ts-mode . "javascript-mode_icon")
                                     (kotlin-mode . "kotlin-mode_icon")
                                     (go-mode . "go-mode_icon")
                                     (latex-mode . "latex-mode_icon")
@@ -104,7 +106,6 @@ See <https://discordapp.com/developers/applications/me>."
                                     (magit-mode . "magit-mode_icon")
                                     (markdown-mode . "markdown-mode_icon")
                                     (meson-mode . "meson-mode_icon")
-                                    (nasm-mode . "nasm-mode_icon")
                                     (nim-mode . "nim-mode_icon")
                                     (nix-mode . "nix-mode_icon")
                                     (ocaml-mode . "ocaml-mode_icon")
@@ -116,17 +117,20 @@ See <https://discordapp.com/developers/applications/me>."
                                     (puml-mode . "puml-mode_icon")
                                     (puppet-mode . "puppet-mode_icon")
                                     (python-mode . "python-mode_icon")
+				    (python-ts-mode . "python-mode_icon")
                                     (racket-mode . "racket-mode_icon")
                                     (ruby-mode . "ruby-mode_icon")
-                                    (rust-mode . "rust-mode_icon")
+                                    (rust-ts-mode . "rust-mode_icon")
                                     (rustic-mode . "rust-mode_icon")
                                     (scala-mode . "scala-mode_icon")
                                     (solidity-mode . "solidity-mode_icon")
                                     (sh-mode . "comint-mode_icon")
                                     (terraform-mode . "terraform-mode_icon")
-                                    (typescript-mode . "typescript-mode_icon")
+                                    (typescript-ts-mode . "typescript-mode_icon")
+				    (typescript-mode . "typescript-mode_icon")
+				    (tsx-ts-mode . "typescript-mode_icon")
                                     (zig-mode . "zig-mode_icon")
-                                    (janet-mode . "janet-mode_icon")
+				    ("*terminal*" . "comint-mode_icon")
                                     ("^slime-.*" . "lisp-mode_icon")
                                     ("^sly-.*$" . "lisp-mode_icon"))
   "Mapping alist of major modes to icon names to have elcord use.
@@ -135,12 +139,12 @@ Note, these icon names must be available as 'small_image' in Discord."
                                   (regexp :tag "Regex"))
                 :value-type (choice (string :tag "Icon name")
                                     (function :tag "Mapping function")))
-  :group 'elcord)
+  :group 'elcord-ts)
 
 (defcustom elcord-mode-text-alist '((agda-mode . "Agda")
                                     (assembly-mode . "Assembly")
                                     (bqn-mode . "BQN")
-                                    (c-mode . "C  ")
+                                    (c-ts-mode . "C  ")
                                     (c++-mode . "C++")
                                     (csharp-mode . "C#")
                                     (cperl-mode . "Perl")
@@ -156,7 +160,6 @@ Note, these icon names must be available as 'small_image' in Discord."
                                     (markdown-mode . "Markdown")
                                     (magit-mode . "It's Magit!")
                                     ("mhtml-mode" . "HTML")
-                                    (nasm-mode . "NASM")
                                     (nim-mode . "Nim")
                                     (ocaml-mode . "OCaml")
                                     (pascal-mode . "Pascal")
@@ -175,13 +178,13 @@ Note, these icon names must be available as 'small_image' in Discord."
                                   (regexp :tag "Regex"))
                 :value-type (choice (string :tag "Text label")
                                     (function :tag "Mapping function")))
-  :group 'elcord)
+  :group 'elcord-ts)
 
 (defcustom elcord-display-elapsed 't
   "When enabled, Discord status will display the elapsed time since Emacs \
 has been started."
   :type 'boolean
-  :group 'elcord)
+  :group 'elcord-ts)
 
 (defvar elcord--startup-time (string-to-number (format-time-string "%s" (current-time))))
 
@@ -196,29 +199,29 @@ Otherwise, it will display:
 
 The mode text is the same found by `elcord-mode-text-alist'"
   :type 'boolean
-  :group 'elcord)
+  :group 'elcord-ts)
 
-(defcustom elcord-display-line-numbers 't
+(defcustom elcord-display-line-numbers 'nil
   "When enabled, shows the total line numbers of current buffer.
 Including the position of the cursor in the buffer."
   :type 'boolean
-  :group 'elcord)
+  :group 'elcord-ts)
 
 (defcustom elcord-buffer-details-format-function 'elcord-buffer-details-format
   "Function to return the buffer details string shown on discord.
 Swap this with your own function if you want a custom buffer-details message."
   :type 'function
-  :group 'elcord)
+  :group 'elcord-ts)
 
 (defcustom elcord-use-major-mode-as-main-icon 'nil
   "When enabled, the major mode determines the main icon, rather than it being the editor."
   :type 'boolean
-  :group 'elcord)
+  :group 'elcord-ts)
 
 (defcustom elcord-show-small-icon 't
   "When enabled, show the small icon as well as the main icon."
   :type 'boolean
-  :group 'elcord)
+  :group 'elcord-ts)
 
 (defcustom elcord-editor-icon 'nil
   "Icon to use for the text editor. When nil, use the editor's native icon."
@@ -231,19 +234,14 @@ Swap this with your own function if you want a custom buffer-details message."
                  (const :tag "Spacemacs" "spacemacs_icon")
                  (const :tag "Doom" "doom_icon")
                  (const :tag "Doom Cute" "doom_cute_icon"))
-  :group 'elcord)
+  :group 'elcord-ts)
 
 (defcustom elcord-boring-buffers-regexp-list '("^ "
                                                "\\\\*Messages\\\\*")
   "A list of regexp's to match boring buffers.
 When visiting a boring buffer, it will not show in the elcord presence."
   :type '(repeat regexp)
-  :group 'elcord)
-
-(defcustom elcord-discord-ipc-path 'nil
-  "Path to the Discord IPC pipe. When nil, the default path is used."
-  :type 'string
-  :group 'elcord)
+  :group 'elcord-ts)
 
 ;;;###autoload
 (define-minor-mode elcord-mode
@@ -251,7 +249,7 @@ When visiting a boring buffer, it will not show in the elcord presence."
   nil nil nil
   :require 'elcord
   :global t
-  :group 'elcord
+  :group 'elcord-ts
   :after-hook
   (progn
     (cond
@@ -267,7 +265,7 @@ When visiting a boring buffer, it will not show in the elcord presence."
    (t "Emacs"))
   "The name to use to represent the current editor.")
 
-(defvar elcord--discord-ipc-pipe-format "discord-ipc-%d"
+(defvar elcord--discord-ipc-pipe "discord-ipc-0"
   "The name of the discord IPC pipe.")
 
 (defvar elcord--update-presence-timer nil
@@ -296,30 +294,6 @@ Unused on other platforms.")
 (defvar elcord--idle-status nil
   "Current idle status.")
 
-(defun elcord--find-discord-ipc-pipe ()
-  "Find the path to the Discord IPC pipe."
-  (if elcord-discord-ipc-path
-      ;; If the user has specified the pipe location, trust them
-      elcord-discord-ipc-path
-    ;; Otherwise, try to find the pipe in the usual places
-    (let ((candidates
-           (mapcan
-            (lambda (dir)
-              (mapcar
-               (lambda (num)
-                 (expand-file-name (format elcord--discord-ipc-pipe-format num) dir))
-               (number-sequence 0 9)))
-            (list (expand-file-name "app/com.discordapp.Discord"
-                                    (getenv "XDG_RUNTIME_DIR"))
-                  (getenv "XDG_RUNTIME_DIR")
-                  (getenv "TMPDIR")
-                  (getenv "TMP")
-                  (getenv "TEMP")
-                  "/tmp"))))
-      (cl-loop for candidate in candidates
-               until (file-exists-p candidate)
-               finally return candidate))))
-
 (defun elcord--make-process ()
   "Make the asynchronous process that communicates with Discord IPC."
   (let ((default-directory "~/"))
@@ -331,7 +305,7 @@ Unused on other platforms.")
                   "PowerShell"
                   "-NoProfile"
                   "-ExecutionPolicy" "Bypass"
-                  "-Command" elcord--stdpipe-path "." (format elcord--discord-ipc-pipe-format 0))
+                  "-Command" elcord--stdpipe-path "." elcord--discord-ipc-pipe)
         :connection-type 'pipe
         :sentinel 'elcord--connection-sentinel
         :filter 'elcord--connection-filter
@@ -339,8 +313,14 @@ Unused on other platforms.")
       (t
        (make-network-process
         :name "*elcord-sock*"
-        :remote (elcord--find-discord-ipc-pipe)
-        :service nil
+        :remote (expand-file-name
+                 elcord--discord-ipc-pipe
+                 (file-name-as-directory
+                  (or (getenv "XDG_RUNTIME_DIR")
+                      (getenv "TMPDIR")
+                      (getenv "TMP")
+                      (getenv "TEMP")
+                      "/tmp")))
         :sentinel 'elcord--connection-sentinel
         :filter 'elcord--connection-filter
         :noquery t)))))
@@ -495,8 +475,7 @@ Argument OBJ The data to send to the IPC server."
            `((:op . ,opcode)
              (:len . ,datalen)
              (:data . ,jsonstr)))))
-    (when elcord--sock
-      (process-send-string elcord--sock packet))))
+    (process-send-string elcord--sock packet)))
 
 (defun elcord--test-match-p (test mode)
   "Test `MODE' against `TEST'.
@@ -536,7 +515,7 @@ otherwise if it is a function, call it with `mode' and return that value."
     ((progn elcord-editor-icon) elcord-editor-icon)
     ((boundp 'spacemacs-version) "spacemacs_icon")
     ((boundp 'doom-version) "doom_icon")
-    (t "emacs_icon"))))
+    (t "emacs_dragon_icon"))))
 
 (defun elcord--mode-icon ()
   "Figure out what icon to use for the current major mode.
@@ -744,7 +723,7 @@ If there is no 'previous' buffer attempt to find a non-boring buffer to initiali
     (elcord--start-updates)
 
     (unless elcord-quiet
-      (message "elcord: welcome back"))))
+      (message "elcord: Seja bem-vindo, freguês!"))))
 
 
 (provide 'elcord)
